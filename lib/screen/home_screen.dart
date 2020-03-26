@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_bloc2/blocs/bloc/news_bloc.dart';
+import 'package:news_bloc2/model/news_model.dart';
 
 class HomeScreen extends StatelessWidget {
+  final NewsBloc _bloc = NewsBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Wangyi News'),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        _bloc.add(LoadMoreNews());
+      }),
       body: BlocBuilder<NewsBloc, NewsState>(
-        bloc: NewsBloc()..add(LoadMoreNews()),
+        bloc: _bloc..add(LoadMoreNews()),
         condition: (previous, current) {
           print('condition，$previous => $current');
           return true;
@@ -21,7 +26,13 @@ class HomeScreen extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
           if (state is NewsLoaded) {
-            print('UI $state，newsLength:${state.newsList.length}');
+            // print('UI $state，newsLength:${state.newsList.length}');
+            return Scrollbar(
+              child: ListView.builder(
+                itemCount: state.newsList.length,
+                itemBuilder: (c, i) => ListItem(news: state.newsList[i]),
+              ),
+            );
           }
 
           return Center(
@@ -36,13 +47,38 @@ class HomeScreen extends StatelessWidget {
                 RaisedButton(
                   child: Text('LoadMore'),
                   onPressed: () {
-                    context.bloc<NewsBloc>().add(LoadMoreNews());
+                    _bloc.add(LoadMoreNews());
                   },
                 ),
               ],
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class ListItem extends StatelessWidget {
+  final News news;
+  const ListItem({
+    Key key,
+    @required this.news,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        title: Text(news.title),
+        subtitle: Text(news.passtime),
+        trailing: AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Image.network(
+            news.imageUrl,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }

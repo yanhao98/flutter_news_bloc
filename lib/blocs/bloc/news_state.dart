@@ -7,7 +7,7 @@ abstract class NewsState {}
 class NewsInitial extends NewsState {}
 
 class NewsLoaded extends NewsState {
-  final List newsList;
+  final List<News> newsList;
 
   NewsLoaded({@required this.newsList});
 }
