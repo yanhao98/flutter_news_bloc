@@ -17,18 +17,18 @@ class HomeScreen extends StatelessWidget {
           FloatingActionButton(
               child: Icon(Icons.refresh),
               onPressed: () {
-                _bloc.add(RefreshNews());
+                _bloc.add(NewsEvent.RefreshNews);
               }),
           SizedBox(height: 16),
           FloatingActionButton(
               child: Icon(Icons.navigate_next),
               onPressed: () {
-                _bloc.add(LoadMoreNews());
+                _bloc.add(NewsEvent.LoadMoreNews);
               }),
         ],
       ),
       body: BlocBuilder<NewsBloc, NewsState>(
-        bloc: _bloc..add(LoadMoreNews()),
+        bloc: _bloc..add(NewsEvent.LoadMoreNews),
         condition: (previous, current) {
           print('condition，$previous => $current');
           return true;
@@ -60,7 +60,7 @@ class HomeScreen extends StatelessWidget {
                 RaisedButton(
                   child: Text('LoadMore'),
                   onPressed: () {
-                    _bloc.add(LoadMoreNews());
+                    _bloc.add(NewsEvent.LoadMoreNews);
                   },
                 ),
               ],

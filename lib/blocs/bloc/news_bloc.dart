@@ -17,11 +17,14 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   @override
   Stream<NewsState> mapEventToState(NewsEvent event) async* {
     print('bloc event:$event');
-    if (event is LoadMoreNews) {
-      yield* _mapLoadMoreNewsToState();
-    } else if (event is RefreshNews) {
-      _newsList.clear();
-      yield* _mapLoadMoreNewsToState();
+    switch (event) {
+      case NewsEvent.LoadMoreNews:
+        yield* _mapLoadMoreNewsToState();
+        break;
+      case NewsEvent.RefreshNews:
+        _newsList.clear();
+        yield* _mapLoadMoreNewsToState();
+        break;
     }
   }
 
