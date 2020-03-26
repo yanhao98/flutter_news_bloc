@@ -11,15 +11,15 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Wangyi News'),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
               child: Icon(Icons.refresh),
               onPressed: () {
                 _bloc.add(RefreshNews());
               }),
-          SizedBox(width: 16),
+          SizedBox(height: 16),
           FloatingActionButton(
               child: Icon(Icons.navigate_next),
               onPressed: () {
