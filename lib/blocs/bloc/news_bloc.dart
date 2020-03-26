@@ -19,6 +19,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     print('bloc event:$event');
     if (event is LoadMoreNews) {
       yield* _mapLoadMoreNewsToState();
+    } else if (event is RefreshNews) {
+      _newsList.clear();
+      yield* _mapLoadMoreNewsToState();
     }
   }
 

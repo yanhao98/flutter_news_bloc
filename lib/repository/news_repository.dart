@@ -8,7 +8,7 @@ class NewsRepository {
   static const int perPage = 5;
 
   static Future<List<News>> getWangyiNews({int page = 1}) async {
-    String _requestUrl = '$_baseUrl/getWangYiNews?count=5&page=$page';
+    String _requestUrl = '$_baseUrl/getWangYiNews?count=$perPage&page=$page';
     print('开始请求:$_requestUrl');
     http.Response response = await http.get(_requestUrl);
     print('请求结束：status:${response.statusCode}');

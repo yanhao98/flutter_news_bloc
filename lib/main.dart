@@ -8,7 +8,25 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Material App',
+      // home: TestHome(),
       home: HomeScreen(),
+    );
+  }
+}
+
+class TestHome extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Scrollbar(
+        child: ListView.builder(
+            itemCount: 100,
+            itemBuilder: (c, i) {
+              return ListTile(
+                title: Text('data'),
+              );
+            }),
+      ),
     );
   }
 }
