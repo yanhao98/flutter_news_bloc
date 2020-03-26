@@ -10,8 +10,4 @@ class NewsLoaded extends NewsState {
   final List newsList;
 
   NewsLoaded({@required this.newsList});
-
-  //   final List<Coin> coins;
-
-  // CryptoLoaded({@required this.coins});
 }

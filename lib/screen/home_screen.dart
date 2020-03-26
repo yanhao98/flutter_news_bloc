@@ -21,14 +21,25 @@ class HomeScreen extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
           if (state is NewsLoaded) {
-            print('newsLength:${state.newsList.length}');
+            print('UI $state，newsLength:${state.newsList.length}');
           }
 
           return Center(
-            child: Text(
-              '当前状态\n$state',
-              textAlign: TextAlign.center,
-              style: TextStyle(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  '当前状态\n$state',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(),
+                ),
+                RaisedButton(
+                  child: Text('LoadMore'),
+                  onPressed: () {
+                    context.bloc<NewsBloc>().add(LoadMoreNews());
+                  },
+                ),
+              ],
             ),
           );
         },
