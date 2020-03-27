@@ -5,7 +5,7 @@ import 'package:news_bloc2/model/news_model.dart';
 
 class NewsRepository {
   static const String _baseUrl = 'https://api.apiopen.top';
-  static const int perPage = 500;
+  static const int perPage = 10;
 
   static Future<List<News>> getWangyiNews({int page = 1}) async {
     String _requestUrl = '$_baseUrl/getWangYiNews?count=$perPage&page=$page';

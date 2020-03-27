@@ -64,10 +64,25 @@ class _HomeScreenState extends State<HomeScreen> {
             print('UI $state，newsLength:${state.newsList.length}');
             return NotificationListener<ScrollNotification>(
               onNotification: (notification) {
-                // print('当前位置：${notification.metrics.pixels}，最大长度：${notification.metrics.maxScrollExtent},isLoading:${_bloc.isLoading},未进入屏幕的像素：${notification.metrics.extentAfter}');
-                if (notification.metrics.extentAfter <= 40 && !_bloc.isLoading) {
-                  // _bloc.add(NewsEvent.LoadMoreNews);
-                  print('加载更多');
+                // // print('当前位置：${notification.metrics.pixels}，最大长度：${notification.metrics.maxScrollExtent},isLoading:${_bloc.isLoading},未进入屏幕的像素：${notification.metrics.extentAfter}');
+                // if (notification.metrics.extentAfter <= 40 && !_bloc.isLoading) {
+                //   // _bloc.add(NewsEvent.LoadMoreNews);
+                //   print('加载更多');
+                // }
+
+                switch (notification.runtimeType) {
+                  case ScrollStartNotification:
+                    print("开始滚动");
+                    break;
+                  case ScrollUpdateNotification:
+                    print("正在滚动");
+                    break;
+                  case ScrollEndNotification:
+                    print("滚动停止");
+                    break;
+                  case OverscrollNotification:
+                    print("滚动到边界");
+                    break;
                 }
                 return false;
               },
