@@ -10,6 +10,7 @@ part 'news_state.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
   final List<News> _newsList = [];
+  bool isLoading = false;
 
   @override
   NewsState get initialState => NewsInitial();
@@ -30,11 +31,12 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   Stream<NewsState> _mapLoadMoreNewsToState({isRefresh = false}) async* {
     final int nextPage = isRefresh ? 1 : (_newsList.length ~/ NewsRepository.perPage) + 1;
     // print('请求接口之前 length:${_newsList.length},nextPage:$nextPage');
-
+    isLoading = true;
     final newList = await NewsRepository.getWangyiNews(page: nextPage);
     print('从服务器获取到 ${newList.length} 条数据');
     if (isRefresh) _newsList.clear();
     _newsList.addAll(newList);
     yield NewsLoaded(newsList: _newsList);
+    isLoading = false;
   }
 }

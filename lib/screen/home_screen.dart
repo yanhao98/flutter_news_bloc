@@ -11,27 +11,15 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final NewsBloc _bloc = NewsBloc();
 
-  final ScrollController _scrollController = ScrollController();
-
   @override
   void initState() {
-    _scrollController.addListener(() {
-      print(
-        'scroll: 当前位置：${_scrollController.position.pixels}，最大位置：${_scrollController.position.maxScrollExtent}',
-      );
-    });
-    _bloc.add(NewsEvent.LoadMoreNews);
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _scrollController.dispose();
+    _bloc.add(NewsEvent.LoadMoreNews);
   }
 
   @override
   Widget build(BuildContext context) {
+    print('UI page builder');
     return Scaffold(
       appBar: AppBar(
         title: Text('Wangyi News'),
@@ -40,16 +28,25 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           FloatingActionButton(
-              child: Icon(Icons.refresh),
-              onPressed: () {
-                _bloc.add(NewsEvent.RefreshNews);
-              }),
+            child: Icon(Icons.refresh),
+            onPressed: () {
+              _bloc.add(NewsEvent.RefreshNews);
+            },
+          ),
           SizedBox(height: 16),
           FloatingActionButton(
-              child: Icon(Icons.navigate_next),
-              onPressed: () {
-                _bloc.add(NewsEvent.LoadMoreNews);
-              }),
+            child: Icon(Icons.navigate_next),
+            onPressed: () {
+              _bloc.add(NewsEvent.LoadMoreNews);
+            },
+          ),
+          SizedBox(height: 16),
+          FloatingActionButton(
+            child: Icon(Icons.bug_report),
+            onPressed: () {
+              setState(() {});
+            },
+          ),
         ],
       ),
       body: BlocBuilder<NewsBloc, NewsState>(
@@ -65,10 +62,15 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           if (state is NewsLoaded) {
             print('UI $state，newsLength:${state.newsList.length}');
-            return Scrollbar(
+            return NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                // if (notification.metrics.extentAfter <= 0 && !_bloc.isLoading) {
+                //   _bloc.add(NewsEvent.LoadMoreNews);
+                // }
+                return false;
+              },
               child: ListView.builder(
                 physics: AlwaysScrollableScrollPhysics(),
-                controller: _scrollController,
                 itemCount: state.newsList.length,
                 itemBuilder: (c, i) => ListItem(news: state.newsList[i]),
               ),
