@@ -3,8 +3,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_bloc2/blocs/bloc/news_bloc.dart';
 import 'package:news_bloc2/model/news_model.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final NewsBloc _bloc = NewsBloc();
+
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      print(
+        'scroll: 当前位置：${_scrollController.position.pixels}，最大位置：${_scrollController.position.maxScrollExtent}',
+      );
+    });
+    _bloc.add(NewsEvent.LoadMoreNews);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,9 +53,9 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: BlocBuilder<NewsBloc, NewsState>(
-        bloc: _bloc..add(NewsEvent.LoadMoreNews),
+        bloc: _bloc,
         condition: (previous, current) {
-          print('condition，$previous => $current');
+          // print('condition，$previous => $current');
           return true;
         },
         builder: (context, state) {
@@ -39,9 +64,11 @@ class HomeScreen extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
           if (state is NewsLoaded) {
-            // print('UI $state，newsLength:${state.newsList.length}');
+            print('UI $state，newsLength:${state.newsList.length}');
             return Scrollbar(
               child: ListView.builder(
+                physics: AlwaysScrollableScrollPhysics(),
+                controller: _scrollController,
                 itemCount: state.newsList.length,
                 itemBuilder: (c, i) => ListItem(news: state.newsList[i]),
               ),
