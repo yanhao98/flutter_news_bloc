@@ -17,7 +17,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   @override
   Stream<NewsState> mapEventToState(NewsEvent event) async* {
-    print('bloc event:$event');
+    print('bloc event:$event，isLoading：$isLoading');
     switch (event) {
       case NewsEvent.LoadMoreNews:
         yield* _mapLoadMoreNewsToState();

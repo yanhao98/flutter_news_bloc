@@ -64,9 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
             print('UI $state，newsLength:${state.newsList.length}');
             return NotificationListener<ScrollNotification>(
               onNotification: (notification) {
-                // if (notification.metrics.extentAfter <= 0 && !_bloc.isLoading) {
-                //   _bloc.add(NewsEvent.LoadMoreNews);
-                // }
+                // print('当前位置：${notification.metrics.pixels}，最大长度：${notification.metrics.maxScrollExtent},isLoading:${_bloc.isLoading},未进入屏幕的像素：${notification.metrics.extentAfter}');
+                if (notification.metrics.extentAfter <= 40 && !_bloc.isLoading) {
+                  // _bloc.add(NewsEvent.LoadMoreNews);
+                  print('加载更多');
+                }
                 return false;
               },
               child: ListView.builder(
