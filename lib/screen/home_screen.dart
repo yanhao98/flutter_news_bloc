@@ -73,8 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               child: ListView.builder(
                 physics: AlwaysScrollableScrollPhysics(),
-                itemCount: state.newsList.length,
-                itemBuilder: (c, i) => ListItem(news: state.newsList[i]),
+                itemCount: state.newsList.length + 1,
+                itemBuilder: (c, i) => i == state.newsList.length
+                    ? SizedBox(
+                        height: 44,
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      )
+                    : ListItem(
+                        news: state.newsList[i],
+                      ),
               ),
             );
           }
