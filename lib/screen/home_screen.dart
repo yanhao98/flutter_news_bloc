@@ -18,6 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void dispose() {
+    _bloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('UI page builder');
     return Scaffold(
