@@ -34,6 +34,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   Stream<NewsState> transformEvents(Stream<NewsEvent> events, Stream<NewsState> Function(NewsEvent event) next) {
     print('transformEvents，events：$events，event:$next');
     return super.transformEvents((events as PublishSubject<NewsEvent>).debounceTime(Duration(milliseconds: 1000)), next);
+    // 这里暂时不知道怎么只让某些特定的event延迟。
   }
 
   @override
