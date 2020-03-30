@@ -32,23 +32,27 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          FloatingActionButton(
-            child: Icon(Icons.refresh),
+          FloatingActionButton.extended(
+            label: Text('Refresh'),
+            icon: Icon(Icons.refresh),
             onPressed: () {
               _bloc.add(NewsEvent.RefreshNews);
             },
           ),
           SizedBox(height: 16),
-          FloatingActionButton(
-            child: Icon(Icons.navigate_next),
+          FloatingActionButton.extended(
+            label: Text('Next Page'),
+            icon: Icon(Icons.navigate_next),
             onPressed: () {
               _bloc.add(NewsEvent.LoadMoreNews);
             },
           ),
           SizedBox(height: 16),
-          FloatingActionButton(
-            child: Icon(Icons.bug_report),
+          FloatingActionButton.extended(
+            label: Text('Test'),
+            icon: Icon(Icons.bug_report),
             onPressed: () {
               setState(() {});
             },

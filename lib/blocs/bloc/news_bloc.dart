@@ -32,9 +32,21 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   @override
   Stream<NewsState> transformEvents(Stream<NewsEvent> events, Stream<NewsState> Function(NewsEvent event) next) {
-    print('transformEvents，events：$events，event:$next');
-    return super.transformEvents((events as PublishSubject<NewsEvent>).debounceTime(Duration(milliseconds: 1000)), next);
-    // 这里暂时不知道怎么只让某些特定的event延迟。
+    print('transformEvents，events：$events，next:$next');
+    return super.transformEvents(
+      (events as PublishSubject<NewsEvent>).debounce(
+        (event) {
+          print('transformEvents.debounce,event:$event');
+          if (event == NewsEvent.RefreshNews) {
+            // 刷新会延迟3秒
+            return TimerStream(true, Duration(seconds: 3));
+          } else {
+            return Stream.empty();
+          }
+        },
+      ),
+      next,
+    );
   }
 
   @override
