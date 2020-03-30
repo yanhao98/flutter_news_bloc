@@ -10,7 +10,9 @@ part 'news_event.dart';
 part 'news_state.dart';
 
 class NewsBloc extends Bloc<NewsEvent, NewsState> {
+  // TODO:newsList不在这里管理。
   final List<News> _newsList = [];
+  // TODO:isLoading 不在这里管理。
   bool isLoading = false;
 
   @override
@@ -69,6 +71,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     print('从repository获取到 ${newList.length} 条数据');
     if (isRefresh) _newsList.clear();
     _newsList.addAll(newList);
+
     yield NewsLoaded(newsList: _newsList);
     isLoading = false;
   }
